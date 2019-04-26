@@ -3,7 +3,7 @@ import statistics
 from functools import reduce
 
 # Function map: mainly evaluate several times a function ie. taking arguments from a list or tuple
-print("#*********************map***************************************")
+print("*********************map***************************************")
 def areaFunction(r):
     ''' to calcle the area of circle with radius r'''
     return math.pi * (r**2)
