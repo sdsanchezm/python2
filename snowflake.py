@@ -1,6 +1,6 @@
 import turtle
 import time
-# 
+# s
 window = turtle.Screen()
 window.bgcolor("black")
 
