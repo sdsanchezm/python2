@@ -1,8 +1,10 @@
 import tkinter as tk
 from tkinter import Tk, Label, Button, W, E, LEFT, RIGHT, StringVar, END, Entry, IntVar
+from tkinter import *
+from PIL import Image, ImageTk
 
 class Application(tk.Frame):
-    def __init__(self, master=None):
+    def __init__(self, master = None):
         super().__init__(master)
         self.pack()
         self.create_widgets()
@@ -25,6 +27,12 @@ class Application(tk.Frame):
 
         self.quit = tk.Button(self, text="QUIT2", fg="red", command=root.destroy)
         self.quit.pack(side="bottom")
+
+        image = Image.open("fb1.png")
+        photo = ImageTk.PhotoImage(image)
+        label = Label(image=photo)
+        label.image = photo # keep a reference!
+        label.pack()
 
     def say_hi(self):
         print("hi there, everyone!")
