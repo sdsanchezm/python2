@@ -4,6 +4,8 @@ from tkinter import ttk
 from tkinter import Menu
 import mysql.connector as mysql
 from tkinter import StringVar, IntVar
+from tkinter import scrolledtext
+
 
 window = Tk()
 window.title("Data Base App, using TK")
@@ -23,7 +25,7 @@ class gui1:
         self.tabControl1.add(self.FrameTab1, text = "Input data")
         self.tabControl1.add(self.FrameTab2, text = "View DB")
         self.tabControl1.add(self.FrameTab3, text = "Comments")
-        self.tabControl1.grid()
+        self.tabControl1.grid(columnspan = 10, rowspan = 10, padx = 10, pady = 10, sticky=W+E+N+S)
         #some variables
         self.f_name1 = StringVar()
         self.f_number1 = StringVar()
@@ -42,9 +44,9 @@ class gui1:
         self.name_entry_3 = Entry(self.FrameTab1, textvariable = self.f_kw1, width = 40).grid(row = 6, column = 1)
         self.name_label_3 = Label(self.FrameTab1, text = "Keyword: ", fg = "white").grid(row = 6, column = 0, sticky = E)
         # Button submit
-        self.button_submit = Button(self.FrameTab1, text = "Submit", bg = "green", fg = "white", command = self.query2).grid(column = 3, row = 9)
-        self.button_exit = Button(self.FrameTab1, text = "Exit", bg = "red", fg = "light grey", command = master.quit).grid(column = 2, row = 9)
-        self.button_test = Button(self.FrameTab1, text = "test1", bg = "blue", fg = "white", command = self.saludo).grid(column = 0, row = 9)
+        self.button_submit = Button(self.FrameTab1, text = "Submit", width = 20, bg = "green", fg = "white", command = self.query2).grid(column = 3, row = 9)
+        self.button_exit = Button(self.FrameTab1, text = "Exit", width = 20, bg = "red", fg = "light grey", command = master.quit).grid(column = 2, row = 9)
+        self.button_test = Button(self.FrameTab1, text = "test1", bg = "blue", fg = "white", command = self.saludo).grid(column = 0, row = 19)
         # Menu creation
         #file menu
         self.menubar1 = Menu(self.master)
@@ -67,6 +69,16 @@ class gui1:
         self.menu_item_help.add_command(label = "Exit", command = master.quit)
         self.menubar1.add_cascade(label = "Help", menu = self.menu_item_help)
         self.master.config(menu = self.menubar1)
+        # LabelBox grouping
+        self.group1 = LabelFrame(self.FrameTab2, text="Text Box", padx=5, pady=5)
+        self.group1.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
+        self.master.columnconfigure(0, weight=1)
+        self.master.rowconfigure(1, weight=1)
+        self.group1.rowconfigure(0, weight=1)
+        self.group1.columnconfigure(0, weight=1)
+        self.txtbox = scrolledtext.ScrolledText(self.group1, width=40, height=10)
+        self.txtbox.grid(row=0, column=0, sticky=E+W+N+S)
+
 
     def saludo(self):
         print("Enviado!", self.f_name1)

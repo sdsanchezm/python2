@@ -26,3 +26,4 @@ USE ss1; -- USE A SPECIFIC DATA BASE
 # ALTER TABLE ss1.Employee ADD id_temp int NULL;
 # alter table Employee drop id_temp;
 # alter table Employee add idq int auto_increment key;
+# DELETE FROM Employee WHERE idq = 63;
