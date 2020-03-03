@@ -22,14 +22,16 @@ class gui1:
         self.FrameTab1 = Frame(self.tabControl1)
         self.FrameTab2 = Frame(self.tabControl1)
         self.FrameTab3 = Frame(self.tabControl1)
-        self.tabControl1.add(self.FrameTab1, text = "Input data")
-        self.tabControl1.add(self.FrameTab2, text = "View DB")
+        self.tabControl1.add(self.FrameTab1, text = "Input Data")
+        self.tabControl1.add(self.FrameTab2, text = "Show Record")
         self.tabControl1.add(self.FrameTab3, text = "Comments")
         self.tabControl1.grid(columnspan = 10, rowspan = 10, padx = 10, pady = 10, sticky=W+E+N+S)
         #some variables
         self.f_name1 = StringVar()
         self.f_number1 = StringVar()
         self.f_kw1 = IntVar()
+        self.f_result1 = StringVar()
+        self.consult_parameter = StringVar()
         #self.button_1 = Button(self.FrameTab1, text = "button_1", bg = "green", fg = "yellow", command=self.saludo).grid() #fg = "red" is the fontColor, bg is background color
         # Entries 1
         #self.frame_entries_1 = Frame(self.FrameTab1).grid(columnspan = 5, rowspan = 5, sticky = W + E + N + S, padx = 5, pady = 5, column = 2, row = 9, ipadx = 5, ipady = 5)
@@ -47,6 +49,11 @@ class gui1:
         self.button_submit = Button(self.FrameTab1, text = "Submit", width = 20, bg = "green", fg = "white", command = self.query2).grid(column = 3, row = 9)
         self.button_exit = Button(self.FrameTab1, text = "Exit", width = 20, bg = "red", fg = "light grey", command = master.quit).grid(column = 2, row = 9)
         self.button_test = Button(self.FrameTab1, text = "test1", bg = "blue", fg = "white", command = self.saludo).grid(column = 0, row = 19)
+        # Tab Show Record
+        # Tab 2 Section, search for an id
+        self.entry_search_1 = Entry(self.FrameTab2, textvariable = self.consult_parameter, width = 20).grid(row = 4, column = 1)
+        self.label_search_1 = Label(self.FrameTab2, text = "Name: ", fg = "white").grid(row = 4, column = 0, sticky = E)
+        self.button_search_1 = Button(self.FrameTab2, text = "Pull", bg = "blue", fg = "white", command = self.showallrecords).grid(column = 3, row = 4)
         # Menu creation
         #file menu
         self.menubar1 = Menu(self.master)
@@ -111,6 +118,22 @@ class gui1:
         cursor.execute("INSERT INTO Employee (name1, number1, kw1) VALUES (%s, %s, %s)", (name1, number1, kw1))
         db.commit()
         print(cursor.rowcount, "record(s) affected")
+
+    def showallrecords(self):
+        Data = self.readfromdatabase()
+        for index, dat in enumerate(Data):
+            self.kk1 = Label(self.FrameTab2, text=dat[0]).grid(row=index+10, column=0)
+            self.kk2 = Label(self.FrameTab2, text=dat[1]).grid(row=index+10, column=1)
+            self.kk3 = Label(self.FrameTab2, text=dat[2]).grid(row=index+10, column=2)
+
+    def readfromdatabase(self):
+        consult_parameter1 = self.consult_parameter.get()
+        db = mysql.connect(host = "localhost", user = "admin", passwd = "123qwe", database = "ss1",)
+        cursor = db.cursor()
+        sql1 = "SELECT * FROM Employee WHERE idq = %s"
+        data1 = (consult_parameter1,)
+        cursor.execute(sql1, data1)
+        return cursor.fetchall()
 
 
 mydb = mysql.connect(
