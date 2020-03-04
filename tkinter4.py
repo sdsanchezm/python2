@@ -33,27 +33,9 @@ class gui1:
         self.f_result1 = StringVar()
         self.consult_parameter = StringVar()
         #self.button_1 = Button(self.FrameTab1, text = "button_1", bg = "green", fg = "yellow", command=self.saludo).grid() #fg = "red" is the fontColor, bg is background color
-        # Entries 1
-        #self.frame_entries_1 = Frame(self.FrameTab1).grid(columnspan = 5, rowspan = 5, sticky = W + E + N + S, padx = 5, pady = 5, column = 2, row = 9, ipadx = 5, ipady = 5)
-        self.name_entry_1 = Entry(self.FrameTab1, textvariable = self.f_name1, width = 40).grid(row = 4, column = 1)
-        self.name_label_1 = Label(self.FrameTab1, text = "Name: ", fg = "white").grid(row = 4, column = 0, sticky = E)
-        # Entries 2
-        #self.frame_entries_2 = Frame(self.FrameTab1).grid()
-        self.name_entry_2 = Entry(self.FrameTab1, textvariable = self.f_number1, width = 40).grid(row = 5, column = 1)
-        self.name_label_2 = Label(self.FrameTab1, text = "Number: ", fg = "white").grid(row = 5, column = 0, sticky = E)
-        # Entries 3
-        #self.frame_entries_3 = Frame(self.FrameTab1).grid()
-        self.name_entry_3 = Entry(self.FrameTab1, textvariable = self.f_kw1, width = 40).grid(row = 6, column = 1)
-        self.name_label_3 = Label(self.FrameTab1, text = "Keyword: ", fg = "white").grid(row = 6, column = 0, sticky = E)
-        # Button submit
-        self.button_submit = Button(self.FrameTab1, text = "Submit", width = 20, bg = "green", fg = "white", command = self.query2).grid(column = 3, row = 9)
-        self.button_exit = Button(self.FrameTab1, text = "Exit", width = 20, bg = "red", fg = "light grey", command = master.quit).grid(column = 2, row = 9)
+        # additional Buttons
+        self.button_exit = Button(self.FrameTab1, text = "Exit", width = 20, bg = "red", fg = "light grey", command = master.quit).grid(column = 5, row = 20, sticky = S+E)
         self.button_test = Button(self.FrameTab1, text = "test1", bg = "blue", fg = "white", command = self.saludo).grid(column = 0, row = 19)
-        # Tab Show Record
-        # Tab 2 Section, search for an id
-        self.entry_search_1 = Entry(self.FrameTab2, textvariable = self.consult_parameter, width = 20).grid(row = 4, column = 1)
-        self.label_search_1 = Label(self.FrameTab2, text = "Name: ", fg = "white").grid(row = 4, column = 0, sticky = E)
-        self.button_search_1 = Button(self.FrameTab2, text = "Pull", bg = "blue", fg = "white", command = self.showallrecords).grid(column = 3, row = 4)
         # Menu creation
         #file menu
         self.menubar1 = Menu(self.master)
@@ -76,15 +58,46 @@ class gui1:
         self.menu_item_help.add_command(label = "Exit", command = master.quit)
         self.menubar1.add_cascade(label = "Help", menu = self.menu_item_help)
         self.master.config(menu = self.menubar1)
-        # LabelBox grouping
-        self.group1 = LabelFrame(self.FrameTab2, text="Text Box", padx=5, pady=5)
-        self.group1.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
+        # Group from TAB 3 ##############################
+        # LabelBox grouping text Box in frameTab3
+        self.group_textbox1 = LabelFrame(self.FrameTab3, text="Text Box", padx=5, pady=5)
+        self.group_textbox1.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
         self.master.columnconfigure(0, weight=1)
         self.master.rowconfigure(1, weight=1)
-        self.group1.rowconfigure(0, weight=1)
-        self.group1.columnconfigure(0, weight=1)
-        self.txtbox = scrolledtext.ScrolledText(self.group1, width=40, height=10)
+        self.group_textbox1.rowconfigure(0, weight=1)
+        self.group_textbox1.columnconfigure(0, weight=1)
+        self.txtbox = scrolledtext.ScrolledText(self.group_textbox1, width=40, height=10)
         self.txtbox.grid(row=0, column=0, sticky=E+W+N+S)
+        # Group from TAB 1 ##############################
+        # LabelFrame grouping form in FrameTab1
+        self.group_form1 = LabelFrame(self.FrameTab1, text="Input Data", padx=5, pady=5)
+        self.group_form1.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
+        self.group_form1.rowconfigure(0, weight=1)
+        self.group_form1.columnconfigure(0, weight=1)
+        #self.frame_entries_1 = Frame(self.FrameTab1).grid(columnspan = 5, rowspan = 5, sticky = W + E + N + S, padx = 5, pady = 5, column = 2, row = 9, ipadx = 5, ipady = 5)
+        self.name_entry_1 = Entry(self.group_form1, textvariable = self.f_name1, width = 40).grid(row = 4, column = 1)
+        self.name_label_1 = Label(self.group_form1, text = "Name: ", fg = "white").grid(row = 4, column = 0, sticky = E)
+        # Entries 2
+        #self.frame_entries_2 = Frame(self.FrameTab1).grid()
+        self.name_entry_2 = Entry(self.group_form1, textvariable = self.f_number1, width = 40).grid(row = 5, column = 1)
+        self.name_label_2 = Label(self.group_form1, text = "Number: ", fg = "white").grid(row = 5, column = 0, sticky = E)
+        # Entries 3
+        #self.frame_entries_3 = Frame(self.FrameTab1).grid()
+        self.name_entry_3 = Entry(self.group_form1, textvariable = self.f_kw1, width = 40).grid(row = 6, column = 1)
+        self.name_label_3 = Label(self.group_form1, text = "Keyword: ", fg = "white").grid(row = 6, column = 0, sticky = E)
+        # Button submit
+        self.button_submit = Button(self.group_form1, text = "Submit", width = 20, bg = "green", fg = "white", command = self.query2).grid(column = 1, row = 9, sticky = E)
+        # Group from TAB 2 ##############################
+        # LabelFrame grouping get data in frameTab2
+        self.group_search1 = LabelFrame(self.FrameTab2, text="Get Data", padx=5, pady=5)
+        self.group_search1.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
+        self.group_search1.rowconfigure(0, weight=1)
+        self.group_search1.columnconfigure(0, weight=1)
+        # Tab 2 Section, search for an id
+        self.label2_search_1 = Label(self.group_search1, text = "id: ", fg = "white").grid(row = 4, column = 0, sticky = E)
+        self.entry_search_1 = Entry(self.group_search1, textvariable = self.consult_parameter, width = 40).grid(row = 4, column = 1)
+        self.button_search_1 = Button(self.group_search1, text = "Pull", bg = "green", fg = "white", command = self.showallrecords).grid(column = 1, row = 5, sticky = E)
+        self.label_search_1 = Label(self.FrameTab2, text = "Name: ", fg = "white").grid(row = 4, column = 0, sticky = E)
 
 
     def saludo(self):
