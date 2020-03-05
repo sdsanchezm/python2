@@ -98,7 +98,7 @@ class gui1:
         self.label2_search_1 = Label(self.group_search1, text = "id: ", fg = "white").grid(row = 4, column = 0, sticky = E)
         self.entry_search_1 = Entry(self.group_search1, textvariable = self.consult_parameter, width = 40).grid(row = 4, column = 1)
         self.button_search_1 = Button(self.group_search1, text = "Pull", bg = "green", fg = "white", command = self.showallrecords).grid(column = 1, row = 5, sticky = E)
-        self.label_search_1 = Label(self.FrameTab2, text = "Name: ", fg = "white").grid(row = 4, column = 0, sticky = E)
+        self.label_search_1 = Label(self.FrameTab2, text = "Results:", fg = "white").grid(row = 4, column = 0, sticky = E)
             # Second Group from TAB 2 ##############################
         # LabelFrame grouping get data in frameTab2
         self.group_delete1 = LabelFrame(self.FrameTab2, text="Delete Record", padx=5, pady=5)
@@ -145,10 +145,19 @@ class gui1:
 
     def showallrecords(self):
         Data = self.readfromdatabase()
+        self.var_result0 = StringVar()
+        self.var_result1 = StringVar()
+        self.var_result2 = StringVar()
         for index, dat in enumerate(Data):
-            self.kk1 = Label(self.FrameTab2, text=dat[0]).grid(row=index+10, column=0)
-            self.kk2 = Label(self.FrameTab2, text=dat[1]).grid(row=index+10, column=1)
-            self.kk3 = Label(self.FrameTab2, text=dat[2]).grid(row=index+10, column=2)
+            #self.kk1 = Label(self.FrameTab2, text=dat[0]).grid(row=index+10, column=0)
+            #self.kk2 = Label(self.FrameTab2, text=dat[1]).grid(row=index+10, column=1)
+            #self.kk3 = Label(self.FrameTab2, text=dat[2]).grid(row=index+10, column=2)
+            self.kk1 = Entry(self.FrameTab2, textvariable = self.var_result0).grid(row=index+10, column=0)
+            self.kk2 = Entry(self.FrameTab2, textvariable = self.var_result1).grid(row=index+11, column=0)
+            self.kk3 = Entry(self.FrameTab2, textvariable = self.var_result0).grid(row=index+12, column=0)
+            self.var_result0.set(dat[0])
+            self.var_result1.set(dat[1])
+            self.var_result2.set(dat[2])
 
     def readfromdatabase(self):
         consult_parameter1 = self.consult_parameter.get()
