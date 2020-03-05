@@ -32,6 +32,7 @@ class gui1:
         self.f_kw1 = IntVar()
         self.f_result1 = StringVar()
         self.consult_parameter = StringVar()
+        self.delete_parameter = StringVar()
         #self.button_1 = Button(self.FrameTab1, text = "button_1", bg = "green", fg = "yellow", command=self.saludo).grid() #fg = "red" is the fontColor, bg is background color
         # additional Buttons
         self.button_exit = Button(self.FrameTab1, text = "Exit", width = 20, bg = "red", fg = "light grey", command = master.quit).grid(column = 5, row = 20, sticky = S+E)
@@ -87,7 +88,7 @@ class gui1:
         self.name_label_3 = Label(self.group_form1, text = "Keyword: ", fg = "white").grid(row = 6, column = 0, sticky = E)
         # Button submit
         self.button_submit = Button(self.group_form1, text = "Submit", width = 20, bg = "green", fg = "white", command = self.query2).grid(column = 1, row = 9, sticky = E)
-        # Group from TAB 2 ##############################
+            # First Group from TAB 2 ##############################
         # LabelFrame grouping get data in frameTab2
         self.group_search1 = LabelFrame(self.FrameTab2, text="Get Data", padx=5, pady=5)
         self.group_search1.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
@@ -98,6 +99,16 @@ class gui1:
         self.entry_search_1 = Entry(self.group_search1, textvariable = self.consult_parameter, width = 40).grid(row = 4, column = 1)
         self.button_search_1 = Button(self.group_search1, text = "Pull", bg = "green", fg = "white", command = self.showallrecords).grid(column = 1, row = 5, sticky = E)
         self.label_search_1 = Label(self.FrameTab2, text = "Name: ", fg = "white").grid(row = 4, column = 0, sticky = E)
+            # Second Group from TAB 2 ##############################
+        # LabelFrame grouping get data in frameTab2
+        self.group_delete1 = LabelFrame(self.FrameTab2, text="Delete Record", padx=5, pady=5)
+        self.group_delete1.grid(row=1, column=9, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
+        self.group_delete1.rowconfigure(0, weight=1)
+        self.group_delete1.columnconfigure(0, weight=1)
+        # Tab 2 Section, search for an id
+        self.label2_delete_1 = Label(self.group_delete1, text = "id: ", fg = "white").grid(row = 4, column = 0, sticky = E)
+        self.entry_delete_1 = Entry(self.group_delete1, textvariable = self.delete_parameter, width = 40).grid(row = 4, column = 1)
+        self.button_delete_1 = Button(self.group_delete1, text = "Delete", bg = "blue", fg = "white", command = self.delete_fromdatabase).grid(column = 1, row = 5, sticky = E)
 
 
     def saludo(self):
@@ -147,6 +158,19 @@ class gui1:
         data1 = (consult_parameter1,)
         cursor.execute(sql1, data1)
         return cursor.fetchall()
+
+    def delete_fromdatabase(self):
+        delete_parameter1 = self.delete_parameter.get()
+        db = mysql.connect(host = "localhost", user = "admin", passwd = "123qwe", database = "ss1",)
+        cursor = db.cursor()
+        sql1 = "DELETE FROM Employee WHERE idq = %s"
+        data1 = (delete_parameter1,)
+        cursor.execute(sql1, data1)
+        db.commit()
+        print(cursor.rowcount, "record(s) affected")
+
+
+# DELETE FROM Employee WHERE idq = 63;
 
 
 mydb = mysql.connect(
