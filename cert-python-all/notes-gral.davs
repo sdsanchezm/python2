@@ -1,0 +1,796 @@
+
+
+Module 4:
+
+- Code always grows 
+- Never think that any of your programs is eventually completed. 
+- Larger means tougher maintenance
+- You will be forced to divide it
+- 2 main process: Divide al lthe task and Join all the created parts in one working whole
+- This process is called: Decomposition
+- Module suer: who uses the module; Module Supplier: Who creates a brand new module.
+- Each module consists of entities (like a book consists of chapters).
+- These entities can be functions, variables, constants, classes, and objects. 
+- For example: module math, it contains sin(), log(), etc
+- to use a module, shold be imported
+- The way we can use this entities (pi, sine) depends on how the import has been done. 
+- Example: "import math, sys"
+- All the names defined in the module become known, but they don’t enter your code’s namespace.
+- Import math; math.pi or math.sin (can be used after import)
+- To import an specific entity: "from math import pi" Once this is done, is not possible to use others, only the imported
+- The "from module import *" is a temporary solution, why? because it may conflict with another name/module
+- Aliasing: put a name to an existing module "import module as alias"
+- If you use aliasing, then you gotta use the alias and not the original name.
+- If more than one alias is required, use it in this way "from module import n as a, m as b, o as c"
+
+import math; print(dir(math)) # to know the name of all entities on that module
+in math module: 
+- ceil(x) > the ceiling of x (the smallest integer greater than or equal to x)
+- floor(x) > the floor of x (the largest integer less than or equal to x)
+- trunc(x) > the value of x truncated to an integer (be careful – it’s not an equivalent either of ceil or floor)
+- factorial(x) > returns x! (x has to be an integral and not a negative)
+- hypot(x,y) > returns the length of the hypotenuse of a right-angle triangle with the leg lengths equal to x and y (the same as sqrt(pow(x,2)+pow(y,2)) but more precise)
+
+## see snippet (4.2.8)
+from math import ceil, floor, trunc
+
+x = 1.4
+y = 2.6
+print(floor(x), floor(y))
+print(floor(-x), floor(-y))
+print(ceil(x), ceil(y))
+print(ceil(-x), ceil(-y))
+print(trunc(x), trunc(y))
+print(trunc(-x), trunc(-y))
+###
+
+from random import random
+
+for i in range(5):
+	print(random())
+
+
+## seed function, initiates the randomness thing for the randon function, snippet:
+from random import random,seed
+seed(0)
+# seed(1)
+for i in range(5):
+	print(random())
+
+## randrange > created rando mvalue i na rage; randint creates a random value in a range, snippet: 
+from random import randrange, randint
+
+print(randrange(1),end=' ')
+print(randrange(0,1),end=' ')
+print(randrange(0,1,1),end=' ')
+print(randint(0,1))
+
+# snippet 2:
+from random import randint
+
+for i in range(10):
+	print(randint(1,10),end=',')
+
+
+## choice(), choose an element from a list; sample(), choose n elements from a list (return a list)
+
+choice(sequence)
+sample(sequence, elements_to_chose=1)
+
+#Snippet: 
+from random import choice,sample
+
+lst = [1,2,3,4,5,6,7,8,9,10]
+print(choice(lst))
+print(sample(lst,5))
+print(sample(lst,10))
+
+##  platform(aliased = True, terse = True) to show information about the platform that is running the snippet
+
+# snippet: 
+from platform import pslatform
+
+print(platform())
+print(platform(1))
+print(platform(0,1))
+
+## machine() allows to know the machine that we are running (returns x86, x86_64, armv7l)
+
+from platform import machine()
+print(machine())
+
+## processor() shows the type of the processor that we are using; system(), shows the operatign system we are using; version(), provides the version of the OS.
+from platform import processor, system
+print(processor())
+print(system())
+print(version())
+
+## python_implementation(), shows the implementation of python (for example Cpython); python_version_tuple, returns a tuple of 3 numbers: major version, minor part and patch level
+
+# from platform import python_implementation, python_version_tuple
+
+print(python_implementation())
+for atr in python_version_tuple():
+	print(atr)
+
+
+4.3
+## Create a file called: module.py with this: print("I like to be a module")
+Now, create a file called main.py whit this: import module and print(__name__)
+when the main is executed, it is main, but then the module is executed, it becomes the main ans the module is printed as the name of the module but without .py
+
+To test if a file is main, and to make sure a module is not spoling the original code
+
+# snippet:
+counter = 0 #if we want to know how many times a module is being imported
+if__name__=="__main__":
+	print("I prefer to be a module")
+else:
+	print("I like to be a module")
+
+# snippet, create the following module:
+
+#!/usr/bin/env python3 # shabang, shebang, hashbang, poundbang or even hashpling 
+
+""" module.py - an example of Python module """
+
+__counter = 0
+
+def suml(list):
+	global __counter
+	__counter += 1
+	sum = 0
+	for el in list:
+		sum += el
+	return sum
+
+def prodl(list):
+	global __counter	
+	__counter += 1
+	prod = 1
+	for el in list:
+		prod *= el
+	return prod
+
+if __name__ == "__main__":
+	print("I prefer to be a module, but I can do some tests for you")
+	l = [i+1 for i in range(5)]
+	print(suml(l) == 15)
+	print(prodl(l) == 120)
+
+# Calling in this way:
+
+from module import suml, prodl
+
+zeroes = [0 for i in range(5)]
+ones = [1 for i in range(5)]
+print(suml(zeroes))
+print(prodl(ones))
+
+
+## If the modules are in other folder, we can use the path.append like this:
+
+from sys import path
+
+path.append('..\\modules')
+
+import module
+
+zeroes = [0 for i in range(5)]
+ones = [1 for i in range(5)]
+print(module.suml(zeroes))
+print(module.prodl(ones))
+
+## the complete example of handling packages and modules is as follows:
+## To make a folder a package, it's neccessary to include the __init__.py file (can be empty)
+
+from sys import path
+
+path.append('..\\packages\\extrapack.zip')
+
+import extra.good.best.sigma as sig
+import extra.good.alpha as alp
+from extra.iota import FunI
+from extra.good.beta import FunB
+
+print(sig.FunS())
+print(alp.FunA())
+print(FunI())
+print(FunB())
+
+
+##
+## MODULE 4.4, errors
+## 
+## if the exceptcion is not in the program, then it will raise an error
+## in case the excpetion is in the program, then it will run the code inside of its block
+
+try:
+	x = int(input())
+	y = 1 / x
+	print(y)
+except ZeroDivisionError:
+	print('Cannot divide by zero – sorry!')
+except ValueError:
+	print('You have to enter an integer value!')
+except:
+	print('Oh, dear!')
+print('THE END')
+
+##
+## the order of the branches matters. Don’t put more general exceptions before more concrete ones > This will make the latter one unreachable and useless;
+
+
+def badfun(n):
+	try:
+		return n/0
+	except:
+		print('I did it again!')
+		raise
+
+try:
+	badfun(0)
+except ArithmeticError:
+	print('I see!')
+print('THE END')
+
+## assertion error, can be put into any part
+It evaluates the expression;
+if the expression evaluates to True, or a non-zero numerical value, or a non-empty string, or any other value different than None, it won’t do anything else;
+otherwise, it automatically and immediately raises an exception named AssertionError (in this case, we say that the assertion has failed); assertions don’t supersede exceptions or validate the data – they are their supplements.
+
+import math
+x = float(input())
+assert x>=0.0
+x = math.sqrt(x)
+print(x)
+
+
+##
+## 4.6 some usefull excpetions
+##
+## 
+
+## BaseException
+The most general (abstract) of all Python exceptions – all other exceptions are included in this one; it can be said that the following two except branches are equivalent:
+
+except:
+and
+except BaseException:
+
+## BaseException ← Exception ← AssertionError
+
+a concrete exception raised by the assert instruction when its argument evaluates to False, None, zero, or an empty string
+
+from math import tan,radians
+angle = int(input('Enter integral angle in degrees: '))
+# we must be sure that angle != 90 + k*180
+assert angle % 180 != 90
+print(tan(radians(angle)))
+
+
+## BaseException ← Exception
+
+an abstract exception including all exceptions caused by errors resulting from code malfunctions (there are also exceptions that are rooted outside of your code; be alert!)
+
+## BaseException ← Exception ← LookupError ← IndexError
+# the code shows an extravagant way of leaving the loop
+# 
+
+list = [1,2,3,4,5]
+ix = 0
+doit = True
+while doit:
+	try:
+		print(list[ix])
+		ix += 1
+	except IndexError:
+		doit = False
+print('Done')
+
+
+## BaseException ← KeyboardInterrupt
+
+from time import sleep
+seconds = 0
+while True:
+	try:
+		print(seconds)
+		seconds += 1
+		sleep(1)
+	except KeyboardInterrupt:
+		print("Don't do that!")
+
+
+## BaseException ← Exception ← LookupError
+an abstract exception including all exceptions caused by errors resulting from invalid references to different collections (lists, dictionaries, tuples, etc.)
+
+
+
+## BaseException ← Exception ← MemoryError
+description:
+a concrete exception raised when an operation cannot be completed due to a lack of free memory
+
+# this code causes the MemoryError exception 
+# warning: executing this code may be crucial for your OS
+# don't run it in production environments!
+string = 'x'
+try:
+	while True:
+		string = string + string
+		print(len(string))
+except MemoryError:
+	print('This is not funny!')
+
+## BaseException ← Exception ← ArithmeticError ← OverflowError
+
+description:
+a concrete exception raised when an operation produces a number too big to be successfully stored
+# the code prints subsequent values of exp(k), k = 1,2,4,8,16,…
+from math import exp
+ex = 1
+try:
+      while True:
+            print(exp(ex))
+            ex *= 2
+except OverflowError:
+      print('Number is too big.'')
+
+
+## BaseException ← Exception ← StandardError ← ImportError
+
+description:
+a concrete exception raised when an import operation fails
+
+one of this imports will fail - which one?
+try:
+      import math
+      import time
+      import abracadabra
+except:
+      print('One of your imports has failed. ')
+
+
+## BaseException ← Exception ← LookupError ← KeyError
+
+A concrete exception raised when you try to access a non-existent collection’s element (e.g., a dictionary’s)
+
+# how to abuse the dictionary and how to deal with it
+dict = { 'a' : 'b', 'b' : 'c', 'c' : 'd' }
+ch = 'a'
+try:
+      while True:
+            ch = dict[ch]
+            print(ch)
+except KeyError:
+      print('No such key:', ch)
+
+
+
+##
+## 4.7 Characters and Strings vs. computers
+##
+## 
+
+You’ve written some interesting programs since you’ve started this course, but all of them have processed only one kind of data – numbers. As you know (you can see this everywhere around you) lots of computer data are not numbers: first names, last names, addresses, titles, poems, scientific papers, emails, court judgements, love confessions, and much, much more.
+
+All these data must be stored, input, output, searched, and transformed by contemporary computers just like any other data, no matter if they are single characters or multi-volume encyclopedias.
+
+How is it possible?
+
+How can you do it in Python? This is what we’ll discuss now. Let’s start with how computers understand single characters.
+
+Computers store characters as numbers. Every character used by a computer corresponds to a unique number, and vice versa. This assignment must include more characters than you might expect. Many of them are invisible to humans, but essential to computers.
+
+Some of these characters are called whitespaces, while others are named control characters, because their purpose is to control input/output devices. An example of a whitespace that is completely invisible to the naked eye is a special code, or a pair of codes (different operating systems may treat this issue differently), which are used to mark the ends of the lines inside text files.
+
+People do not see this sign (or these signs), but are able to observe the effect of their application where the lines are broken.
+
+We can create virtually any number of character–number assignments, but life in a world in which every type of computer uses a different character encoding would not be very convenient. This system has led to a need to introduce a universal and widely accepted standard implemented by (almost) all computers and operating systems all over the world.
+
+The one named ASCII (short for American Standard Code for Information Interchange) is the most widely used, and you can assume that nearly all modern devices (like computers, printers, mobile phones, tablets, etc.) use that code.
+
+The code provides space for 256 different characters, but we are interested only in the first 128. If you want to see how the code is constructed, look at the table here. Look at it carefully – there are some interesting facts. Look at the code of the most common character – the space. This is 32.
+
+Now check the code of the lower-case letter a. This is 97. And now find the upper-case A. Its code is 65. Now work out the difference between the code of a and A. It is equal to 32. That’s the code of a space. Interesting, isn’t it?
+
+Also note that the letters are arranged in the same order as in the Latin alphabet.
+
+Of course, the Latin alphabet is not sufficient for the whole of mankind. Users of that alphabet are in the minority.  It was necessary to come up with something more flexible and capacious than ASCII, something able to make all the software in the world amenable to internationalization, because different languages use completely different alphabets, and sometimes these alphabets are not as simple as the Latin one.
+
+The word “internationalization” is commonly shortened to I18N →
+
+Why? Look carefully – there is an I at the front of the word, next there are 18 different letters, and an N at the end.
+
+Despite the slightly humorous origin, the term is officially used in many documents and standards.
+
+The software I18N is a standard in present times. Each program has to be written in a way that enables it to be used all around the world, among different cultures, languages and alphabets.
+
+A classic form of ASCII code uses eight bits for each sign. Eight bits mean 256 different characters. The first 128 are used for the standard Latin alphabet (both upper-case and lower-case characters). Is it possible to push all the other national characters used around the world into the remaining 128 locations?
+
+No. It isn’t.
+
+A code point is a number which makes a character. For example, 32 is a code point which makes a space in ASCII encoding.
+
+We can say that standard ASCII code consists of 128 code points.
+
+As standard ASCII occupies 128 out of 256 possible code points, you can only make use of the remaining 128.
+
+It’s not enough for all possible languages, but it may be sufficient for one language, or for a small group of similar languages.
+
+Can you set the higher half of the code points differently for different languages?
+
+Yes, you can.
+
+Such a concept is called a code page →
+
+A code page is a standard for using the upper 128 code points to store specific national characters. For example, there are different code pages for Western Europe and Eastern Europe, Cyrillic and Greek alphabets, Arabic and Hebrew languages, and so on.
+
+This means that the one and same code point can make different characters when used in different code pages.
+
+For example, the code point 200 makes Č (a letter used by some Slavic languages) when utilized by the ISO/IEC 8859-2 code page, and makes Ш (a Cyrillic letter) when used by the ISO/IEC 8859-5 code page.
+
+In consequence, to determine the meaning of a specific code point, you have to know the target code page.
+
+In other words, the code points derived from code the page concept are ambiguous.
+
+Code pages helped the computer industry to solve I18N issues for some time, but it soon turned out that they would not be a permanent solution.
+
+The concept that solved the problem in the long term was Unicode →
+
+Unicode assigns unique (unambiguous) characters (letters, hyphens, ideograms, etc.) to more than a million code points. The first 128 Unicode code points are identical to ASCII, and the first 256 Unicode code points are identical to the ISO/IEC 8859-1 code page (a code page designed for western European languages)
+
+The Unicode standard says nothing about how to code and store the characters in the memory and files. It only names all available characters and assigns them to planes (a group of characters of similar origin, application, or nature).
+
+There is more than one standard describing the techniques used to implement Unicode in actual computers and computer storage systems. The most general of them is UCS-4 →
+
+The name comes from Universal Character Set.
+
+UCS-4 uses 32 bits (four bytes) to store each character, and the code is just the Unicode code points’ unique number. A file containing UCS-4 encoded text may start with a BOM (byte order mark), an unprintable combination of bits announcing the nature of the file’s contents. Some utilities may require it.
+
+As you can see, UCS-4 is a rather wasteful standard – it increases a text’s size by four times compared to standard ASCII.
+
+Fortunately, there are smarter forms of encoding Unicode texts.
+
+One of the most commonly used is UTF-8 →
+
+The name is derived from Unicode Transformation Format.
+
+The concept is very smart. UTF-8 uses as many bits for each of the code points as it really needs to represent them.
+
+For example:
+
+all Latin characters (and all standard ASCII characters) occupy eight bits;
+non-Latin characters occupy 16 bits;
+CJK (China-Japan-Korea) ideographs occupy 24 bits.
+ 
+Due to features of the method used by UTF-8 to store the code points, there is no need to use the BOM, but some of the tools look for it when reading the file, and many editors set it up during the save.
+
+Python 3 fully supports Unicode and UTF-8:
+
+you can use Unicode/UTF-8 encoded characters to name variables and other entities;
+you can use them during all input and output.
+
+This means that Python3 is completely I18Ned.
+
+
+##
+## 4.8 The nature of strings in Python
+## 
+
+strings are inmutable
+string1 = "by"
+print(len(string1))
+$ 2
+
+backslash is an scape character '\' (doesn't count for len())
+
+Multiple lines are declared as this (the \n counts as character):
+
+Multiline = ''' this is a mul
+tiple line'''
+
+In strings + is concatenate and * is replicated, so 3*'b' is bbb
+
+
+the function ord (c1 = 'a'; ord(c1)) returns the specific character unicode
+the error, produces the TypeError
+
+the funciton char(), returns the character of a specific code
+the error, produces the TypeError or valueError
+
+Strings aren’t lists, but you can treat them like lists in many particular cases, fir example:
+
+# example 1:
+string1 = 'okay do it'
+for i in range(len(string1)):
+	print(string1[i], end = " ")
+print()
+
+Same result:
+
+# example 2:
+string1 = 'okay that is fine'
+for xh in string1:
+	print(xh, end = " ")
+print()
+
+the 'in' operator validates if True or False
+
+We’ve also told you that Python’s strings are immutable. This is a very important feature.
+
+What does it mean?
+
+This primarily means that the similarity of strings and lists is limited. Not everything you can do with a list may be done with a string.
+
+The first important difference doesn’t allow you to use the del instruction to remove anything from a string.
+
+The only thing you can do with del and a string is to remove the string as a whole.
+
+del, append, insert doesn't work with strings (only in list) gotta use + instead, or assignation
+
+min() can be used with strings, it returns the less value ASCII equivalent
+max() can be user with strings as well, to find the max ascii 
+
+The method index() can be user with strings to find the position of a character, example:
+#print('aAbByYzZ'.index('b')); it returns: 2
+the method index() returns an error, if the argument doesn't exist
+
+The list function creates a list from a string, example:
+#print(list('abcabcd')) # it returns: ['a', 'b', 'c', 'a', 'b', 'c']
+
+
+##
+## 4.9 The String Methods
+## 
+
+Methods can be used directly from the string or from the variable:
+
+The .capitalize() method is used to set upercase the first letter.
+print('aBcD'.capitalize())
+
+The center just center the text, leaving spaces before and after of the center of the string
+# print('[' + 'alpha'.center(10) + ']')
+
+The center() method can take a variant: center the text but instead of spaces, it may use a differente character.
+# print('[' + 'betha'.center(20,'*') + ']')
+
+The endswith() method checks if the given string ends with the specified argument
+returns True or False. 
+'airplane'.endswith('ne')
+
+The method find() look for an specific set of characters and return the index of the first character
+print("This Is a TesT".find('is')) #it will return 2
+# for a single character, better use in
+The find method can be used with a second argument that specifies the index at which the search will be started.
+The method find() can be used as well to find a specific string into a specific paragraph, e.g. :
+#
+txt = '''this is just a 
+random text with the most
+interesting example!'''
+fnd = txt.find('st')
+while find != -1:
+	print(fnd)
+	txt.fnd('st', fnd + 1)
+# The third argument points to the first index which won’t be taken into consideration during the search (like the upper limit)
+
+The method isalnum() returns False if find a character different of a letter or number
+
+The method isalpha() returns False if find a character different of a letter (only letters)
+
+The method isdigit() returns False if find a character different of a number (numbers only)
+
+The method islower() returns False if find a character upper case (lowercase only)
+
+The method isupper() returns False if find a character lowercase (uppercase only)
+
+The method isspace() returns False if find something different than a spece (space only)
+
+The Method join() returns a string from a string and a list, example:
+# print('-'.join(['this','is','a','test'])) # result: 'this-is-a-test'
+
+The method lower() returns a new string LOWERCASE (it doens't modify the original)
+
+The method upper() returns a new string UPPERCASE (it doens't modify the original)
+
+The method lstrip() removes all spaces BEFORE the string (it can be a word or a text) (no arguments)
+# print('  asd   '.lstrip()) #returns 'asd   ';
+
+The method lstrip() removes all characters BEFORE the string (argument: the character)
+# print('www.asd.net '.lstrip('w.a')) #returns 'sd.net ';
+
+The method replace() just replace a text (1st argument) with another (2nd argument) a specific number of times (3rd argument)
+# print('this is it'.replace('is','are',1))
+
+The method rfind() basically do the same than the find method, however, it starts from the end. Examples:
+'this is a test'.rfind('is')
+'this is a test'.rfind('is',9)
+'this is a test'.rfind('is',3,9)
+
+The method rstrip() removes all characters AFTER the string (argument: the character)
+# print('  www.asd.net'.lstrip('t')) #returns '  www.asd.ne';
+
+The method split() split the string into different strings, assuming the point of split as a whitespace and return a list
+# print('this is a test jo jo'.split()) #returns ['this', 'is', 'a', 'test', 'jo', 'jo']
+
+The method split() (with argument) split the string into different strings,using the argument as a point of split and returns a list
+# print('this is a test jo jo'.split()) #returns ['this', 'is', 'a', 'test', 'jo', 'jo']
+
+The startswith() method check if a string STARTS with a specific string
+# print('this is a test'.startswith('th')) #returns True
+
+The endswith() method check if a string ENDS with a specific string
+# print('this is a test'.endswith('st')) #returns True
+
+The method strip() removes the white spaces before and after the text (combining the rstrip and lstrip)
+
+The method swapcase() just swap the case of all letters (if upper then lower; if lower then upper)
+
+The method tittle() changes the word first of each letter to upper-case
+
+##
+## 4.10 Comparing Strings
+## 
+
+Strings uses == != > >= < <= as numbers as well
+It consider the ASCII code and base don that this works:
+
+# 'this' == 'this' #True
+# 'this' != 'This' #True
+# 'this' < 'this' #False
+# 'this' < 'thisa' #True
+# 'a' > 'A' #True
+# '10' > '010' #False - is still a character
+# '20' < '80' #True - is still a character
+
+Comparing numbers and characters only for == and != the rest raise TypeError exception
+
+The function sorted() is to sort a list, example (it doesn't affect the original)
+list1 = ['asia','america','africa']
+list2 = sorter(list1)
+print(list2) # it prints: ['africa','america','asia']
+
+The method sort() is to sort a list, affecting it:
+list1 = ['asia','america','africa']
+list2 = list1.sort()
+print(list2) # it prints: ['africa','america','asia']
+
+The function srt() convert a number in a string
+# number1 = 21
+number2 = 2.1
+x1 = str(number1) #now it is a string
+y1 = str(number2) #now it is a string
+Convert from string to integer: int(x1)
+Convert from string to a float: float(y1)
+
+##
+## 4.11 4 simple applications
+## 
+
+
+# Example 1:
+text = input("Enter message: ")
+cipher = ''
+for char in text:
+    if not char.isalpha():
+        continue
+    char = char.upper()
+    code = ord(char) + 1
+    if code > ord('Z'):
+        code = ord('A')
+    cipher += chr(code)
+print(cipher)
+
+
+# Example 2:
+cipher= input("Enter cryptogram: ")
+text = ''
+for char in cipher:
+    if not char.isalpha():
+        continue
+    char = char.upper()
+    code = ord(char) - 1
+    if code < ord('A'):
+        code = ord('Z')
+    text += chr(code)
+print(text)
+
+
+# Example 3:
+line = input("Enter line full of numbers - separate them with spaces: ")
+strings = line.split()
+sum = 0
+try:
+    for substr in strings:
+        sum += float(substr)
+    print("Sum =", sum)
+except:
+    print("It's not a number:", substr)
+
+
+# Example 4:
+iban = input("Enter IBAN, please: ")
+iban = iban.replace(' ','')
+if not iban.isalnum():
+    print("Invalid characters inside IBAN - sorry!")
+elif len(iban) < 15:
+    print("IBAN too short")
+elif len(iban) > 31:
+    print("IBAN too long")
+else:
+    iban = (iban[4:] + iban[0:4]).upper()
+    iban2 = ''
+    for ch in iban:
+        if ch.isdigit():
+            iban2 += ch
+        else:
+            iban2 += str(10 + ord(ch) - ord('A'))
+    ibann = int(iban2)
+    if ibann % 97 == 1:
+        print("Seems legit!")
+    else:
+        print("I don't think it's a valid IBAN, sorry")
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** 
+
+4 types of built-in data structures:
+
+1. Lists []
+2. Tuples ()
+3. Dictionaries {}
+4. Sets {}
+
+User defined data structures:
+
+1. Stack
+2. Queues
+3. Trees
+4. Linked List
+5. Graphs
+6. HashMaps
+
+Sorting algorithms:
+
+1. merge Sort
+2. Bubble Sort
+3. Insertion Sort
+4. Selection Sort
+5. Shell Sort
+
+
+
+
+
+
+
+
+*** Django
+
+$ python manage runserver
+$ 
+
+
+
+
+
+
+
+
+
+
+

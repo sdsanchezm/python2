@@ -1,0 +1,148 @@
+#
+# Chapter 5, Objects
+#
+
+# Unit 1
+
+
+Classes form a hierarchy. This may mean that an object belonging to a specific class belongs to all the superclasses at the same time. It may also mean that any object belonging to a superclass may not belong to any of its subclasses.
+
+The object’s home class may define new traits (as well as requirements and qualities) which will be inherited by any of its superclasses.
+
+a noun – you probably define the object’s name;
+an adjective – you probably define the object’s property;
+a verb – you probably define the object’s activity.
+
+Two sample phrases should serve as a good example:
+
+Max is a large cat who sleeps all day.
+
+Object name = Max
+Home class = Cat
+Property = Size (large)
+Activity = Sleep (all day)
+
+A pink Cadillac went quickly.
+
+Object name = Cadillac
+Home class = Wheeled vehicles
+Property = Color (pink)
+Activity = Go (quickly)
+
+Object programming is the art of defining and expanding classes. A class is a model of a very specific part of reality, reflecting properties and activities found in the real world.
+
+The class you define has nothing to do with the object: the existence of a class does not mean that any of the compatible objects will automatically be created. The class itself isn’t able to create an object – you have to create it yourself, and  Python allows you to do this.
+
+The definition begins with the keyword class. The keyword is followed by an identifier which will name the class (note: don’t confuse it with the object’s name – these are two different things).
+
+
+# code, defining a new class:
+
+class OurClass:
+	pass
+
+# code, defining a new Object:
+
+ourobject = OurClass()
+
+The act of creating an object of the selected class is also called an instantiation (as the object becomes an instance of the class).
+
+#
+# Unit 2
+#
+
+A stack is an object with two elementary operations:
+1. push (when a new element is put on the top)
+2. pop (when an existing element is taken away from the top)
+
+Stacks are used very often in many classical algorithms
+and it’s hard to imagine the implementation of many widely used tools without the use of stacks.
+
+The implementation is this:
+
+# code: functions pop and push of a stach (this would be LIFO)
+stack = []
+
+def push(val):
+    stack.append(val)
+
+def pop():
+    val = stack[-1]
+    del stack[-1]
+    return val
+
+push(3)
+push(2)
+push(1)
+print(pop())
+print(pop())
+print(pop())
+
+
+class stk():
+	def __init__(self):
+		self.__num = 0
+		self.stack1 = []
+
+	def push(self, val1):
+		self.stack1.append(val1)
+
+	def pop(self):
+		delval = self.stack1[-1]
+		self.stack1.pop(-1)
+		return delval
+
+k1 = stk()
+k1.push(2)
+k1.push(4)
+k1.push(6)
+print(k1.pop())
+print(k1.pop())
+print(k1.pop())
+
+class Stack:
+	def __init__(self):
+		self.__stk = []
+
+	def push(self, val):
+    		self.__stk.append(val)
+
+	def pop(self):
+    		val = self.__stk[-1]
+    		del self.__stk[-1]
+    		return val
+
+class AddingStack(Stack):
+	def __init__(self):
+		Stack.__init__(self)
+		self.__sum = 0
+
+	def getSum(self):
+		return self.__sum
+
+	def push(self, val):
+		self.__sum += val
+		Stack.push(self,val)
+
+	def pop(self):
+	 	val = Stack.pop(self)
+	 	self.__sum -= val
+	 	return val
+
+stack = AddingStack()
+for i in range(5):
+	stack.push(i)
+print(stack.getSum())
+for i in range(5):
+	print(stack.pop())
+
+
+#
+# unit 3: Properties in Detail
+#
+
+
+
+
+
+

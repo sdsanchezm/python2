@@ -1,0 +1,135 @@
+pwrt admin: 123qwe
+pip install virtualenv
+virtualenv env
+source activate # activate virtualenv, under env/Scripts/activate
+pip install django # install django
+django-admin.py startproject noobmusic
+python manage.py runserver #virtualenv must be enabled
+python manage.py showmigrations --list
+python manage.py startapp band # inside noobmusic
+# mvc pattern, django is a MVC model to build web sites, >> investigate this thing
+#band will have pretty much the same structure than the previous noobmusic
+
+1. Inside the band application: band/views.py:
+
+def index(request):
+	return render(request, 'band/index.html', {'hello': 'world'})
+
+2. 
+
+
+
+***
+# 26:14 add a home page of the application
+
+- Create a template folder inside the root directory
+Inside create the index.html file (with code like as follows)
+
+<h1>Home Page!</h1>
+
+- Create views.py file inside noobmusic, and include this code: (#27:00)
+
+from django.shortcuts import render
+
+def index(request):
+	return render(request, 'index.html')
+
+- Modify the noobmusic/url.py file and add this inside urlpatterns: (# 27:10)
+
+from . import views
+path('', views.index, name="index"),
+
+complete, it should looks like this:
+
+from django.contrib import admin
+from django.urls import path
+from . import views
+
+urlpatterns = [
+	path('', views.index, name = "index.html")
+    path('admin/', admin.site.urls),
+]
+
+- 
+
+***
+# 33:04 create an admin configuration (adding a super user):
+
+$ python manage.py migrate
+$ python manage.py makemigrations
+
+$ python manage.py createsuperuser
+
+# django comes with sqlLite
+
+
+-
+
+***
+# 35:40 Database, create a new model, called Band in this case: 
+ORM (Object Relational Mapper)  which allows to manage DB, run all the SQL code. 
+
+- Modify the band/models.py file and add this code: 
+
+from django.db import models
+
+class Band(models.Model):
+	tittle = models.CharField(max_length=200, unique=True)
+	origin = models.CharField(max_length=200)
+	image = models.CharField(max_length=200)
+	bio = models.TextField(max_length=2000)
+
+- Everytime a change is made to a model file is required to run the "python manage.py makemigrations" and "python manage.py migrate" this apply the new model
+
+- Modify the band/admin.py file and add 
+
+from .models import Band
+
+admin.site.register(Band)
+
+- To show the name of the Band, just add this method to the model file (band/models.py):
+
+	def __str__(self):
+		return self.tittle
+
+***
+41:21 dinamic band, how to get the value, based on the id
+
+- Modify the band/urls.py file and it should look as follows:
+
+urlpatterns = [
+	path('', views.index, name = "index"),
+	path('<int:band_id>/', views.detail, name = "detail") # << like this ss 
+]
+
+- Modify the band/views.py and the the following method to return detail.html and band_id: 
+
+fomr .models import Band
+
+def detail(request, band_id):
+	band = Band.objects.get(pk=band_id)
+	return render(request, 'detail.html', { 'band': band }) # << like this ss 
+	#return render(request, 'detail.html', { 'band_id': band_id }) #example to return only the id
+
+- Create the band/templates/detail.html file and add this on it:
+
+<h1>{{ band.title }}</h1>
+
+<h3>{{ band.origin }}</h3>
+
+<img src="{{ band.image }}" width="300" alt="{{ band.title }}" />
+
+<h3>{{ band.bio }}</h3>
+
+# after changing the models.py file (or in general, the model) it is necessary to re-run migrate and makemigrations using the manage.py file
+
+- To avoid show all the debud information, in the band/views.py modify this:
+
+from django.shortcuts import get_object_or_404
+# and the object 'get_object_or_404'
+band = get_object_or_404(Band, pk=band_id)
+
+- To disable the debug=True mode, modify the noobmusic/settings.py file and set the line, from True to False, like this: DEBUG=False
+
+
+
