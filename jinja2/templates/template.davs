@@ -1,0 +1,15 @@
+<h1>{{ user }}</h1>
+<h2>{{ user_id }}</h2>
+<p>{{ user_credential }}</p>
+<p>{{ user_number }}</p>
+
+{% if good_day %}
+<p>This is a good day</p>
+{% else %}
+<p>This is not a good day</p>
+{% endif %}
+
+{% for post in user_post %}
+    <h3>{{ post.title }}</h3>
+    <h3>Author: {{ post.author }}</h3>
+{% endfor %}

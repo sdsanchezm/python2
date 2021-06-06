@@ -1,0 +1,22 @@
+{% extends 'index.html' %}
+
+{% block body %}
+
+<form action="/add" method="POST">
+    <fieldset>
+        <legend>Add a new contact</legend>
+        
+        <label for="name"> Nombre </label>
+        <input type="text" id="name" name="name">
+
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone">
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email">
+
+        <button type="submit" name="button">Submit</button>
+    </fieldset>
+</form>
+<a href="http://127.0.0.1:5000  ">inicio</a>
+{% endblock %}
